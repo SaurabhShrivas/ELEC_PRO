@@ -73,7 +73,7 @@ void main()
 	clrscr();
 
 	cout<<"\n\t\t\t ELECTRICITY BILL-GENERATOR";
-	cout<<"\n\n\t\t\t\t VAIBHAV SHRIVAS\t\t\t\t\t\t\t\t";
+	cout<<"\n\n\t\t\t\t SAURABH SHRIVAS\t\t\t\t\t\t\t\t";
 	cout<<"\t\t\t\t\t\t\t C++ project \n\n\n";
 	bi.lines();         //Object calling function
 	cout<<"\n\n\n\t\tPRESS ANY KEY TO CONTINUE....";
@@ -211,6 +211,68 @@ void billgen::display()
 
 
 
+//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+//                   MAIN MENU FUNCTION defination
+//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+
+void billgen::menu()
+{
+	char ans='y';
+	int opt;
+	clrscr();
+	textcolor(BLACK);
+	textbackground(WHITE);
+	cout<<"\n\n\n\nPROGRAM MAIN MENU"
+		<<"\n\n1> Generate Bill"
+		<<"\n2> Program group settings"
+		<<"\n3> Options( surch,delete,modify etc..)"
+		<<"\n4> Help me"
+		<<"\n5> Credits (Thanx giving..!)"
+		<<"\n6> show all bills"
+		<<"\n7> Exit"
+		<<"\n\nEnter your choice(1-7) :";
+	cin>>opt;
+	switch(opt)
+	{
+		case 1: cout<<"\n\nLoading your saved settings.........";
+				while(ans=='y'||ans=='Y')
+				{
+					user();
+					calcost();
+					genbill();
+					fsave();
+					cout<<"\nDo you want to Generate more BILLS(y/n) :";
+					cin>>ans;
+				}
+				break;
+
+		case 2:groupsettings();
+			   break;
+
+		case 3:
+			clrscr();
+			options();
+			break;
+
+		case 4:help();
+				break;
+
+		case 5:credit();
+			   break;
+
+		case 6:
+//			showall();
+			break;
+		case 7:exit(1);
+
+		default:lines();
+		cout<<"Function not available:";
+	}
+	menu();   // if invalid choice is entered it will call itself
+}
+
+
+
 //AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 //                     ask for password.
 //AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
@@ -310,7 +372,7 @@ void billgen::password()
 		case 4:exit(-1);
 		case 2:
 		case 1:cout<<"\nDid you forgot password ???"
-			  <<"\nFor SUPPORT & HELP ASK VAIBHAV SHRIVAS:";
+			  <<"\nFor SUPPORT & HELP ASK SAURABH SHRIVAS:";
 			  break;
 		case 3:cout<<"\nWHAT ARE YOU TRYING TO DO ???"
 			<<"\nWITHOUT PASSWORD YOU CAN'T GET ACCESS TO PROGRAM.";
@@ -320,65 +382,6 @@ void billgen::password()
 	}
 
 
-//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-//                   MAIN MENU FUNCTION defination
-//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-
-void billgen::menu()
-{
-	char ans='y';
-	int opt;
-	clrscr();
-	textcolor(BLACK);
-	textbackground(WHITE);
-	cout<<"\n\n\n\nPROGRAM MAIN MENU"
-		<<"\n\n1> Generate Bill"
-		<<"\n2> Program group settings"
-		<<"\n3> Options( surch,delete,modify etc..)"
-		<<"\n4> Help me"
-		<<"\n5> Credits (Thanx giving..!)"
-		<<"\n6> show all bills"
-		<<"\n7> Exit"
-		<<"\n\nEnter your choice(1-7) :";
-	cin>>opt;
-	switch(opt)
-	{
-		case 1: cout<<"\n\nLoading your saved settings.........";
-				while(ans=='y'||ans=='Y')
-				{
-					user();
-					calcost();
-					genbill();
-					fsave();
-					cout<<"\nDo you want to Generate more BILLS(y/n) :";
-					cin>>ans;
-				}
-				break;
-
-		case 2:groupsettings();
-			   break;
-
-		case 3:
-			clrscr();
-			options();
-			break;
-
-		case 4:help();
-				break;
-
-		case 5:credit();
-			   break;
-
-		case 6:
-//			showall();
-			break;
-		case 7:exit(1);
-
-		default:lines();
-		cout<<"Function not available:";
-	}
-	menu();   // if invalid choice is entered it will call itself
-}
 
 
 
@@ -518,73 +521,7 @@ void billgen::fsave()
 }
 
 
-//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-//                       SEARCHING RECORDS AND DISPLAYING (in files)
-//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 
-void billgen::fsearch()
-{
-	int sreg;
-	char found='n';
-
-	cout<<"\nEnter the registration no. to be search:";
-	cin>>sreg;
-	cout<<endl;
-	lines();
-	cout<<"\nSEARCHING RESULT:\n";
-	file.open("bills.txt",ios::in);
-	file.seekg(0);
-	while(file)
-	{
-		file.read((char *)&bi,sizeof(bi));
-		if(bi.reg==sreg)
-		{
-			bi.genbill();
-			cout<<"\nPress any key to continue....";
-			getch();
-			found='y';
-			break;
-		}
-	}
-	if(found=='n')
-	cout<<"The registration number doesn't exist.";
-	file.close();
-
-}
-
-//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-//                 FUNCTION TO DELETE BILLS
-//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-
-void billgen::del()
-{
-
-	file.open("bills.txt",ios::in|ios::out);
-	int sreg;
-	char found='n';
-	cout<<"\nEnter the registration no. to be deleted:";
-	cin>>sreg;
-	file.seekg(0);
-	while(!file.eof())
-	{
-		file.read((char *)&bi,sizeof(bi));
-		if(bi.reg==sreg)
-		{
-			bi.genbill();
-			found='y';
-			break;
-		}
-	}
-	if(found=='n')
-	cout<<"The registration number doesn't exist.";
-	if(found=='y')
-	file.seekp(-sizeof(bi),ios::cur);
-				  reg=00;
-				  file.write((char*)&bi,sizeof(bi));
-	file.close();
-
-
-}
 //AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 //                      function modifying bill
 //AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
@@ -619,6 +556,41 @@ void billgen::modify()
 	file.close();
 	cout<<"\nprocess complete...";
 }}}}
+
+
+//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+//                 FUNCTION TO DELETE BILLS
+//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+
+void billgen::del()
+{
+
+	file.open("bills.txt",ios::in|ios::out);
+	int sreg;
+	char found='n';
+	cout<<"\nEnter the registration no. to be deleted:";
+	cin>>sreg;
+	file.seekg(0);
+	while(!file.eof())
+	{
+		file.read((char *)&bi,sizeof(bi));
+		if(bi.reg==sreg)
+		{
+			bi.genbill();
+			found='y';
+			break;
+		}
+	}
+	if(found=='n')
+	cout<<"The registration number doesn't exist.";
+	if(found=='y')
+	file.seekp(-sizeof(bi),ios::cur);
+				  reg=00;
+				  file.write((char*)&bi,sizeof(bi));
+	file.close();
+
+
+}
 
 //AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 //      function to customize the the programm setings
@@ -700,6 +672,41 @@ void billgen::groupsettings()
 
 
 
+//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+//                       SEARCHING RECORDS AND DISPLAYING (in files)
+//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+
+void billgen::fsearch()
+{
+	int sreg;
+	char found='n';
+
+	cout<<"\nEnter the registration no. to be search:";
+	cin>>sreg;
+	cout<<endl;
+	lines();
+	cout<<"\nSEARCHING RESULT:\n";
+	file.open("bills.txt",ios::in);
+	file.seekg(0);
+	while(file)
+	{
+		file.read((char *)&bi,sizeof(bi));
+		if(bi.reg==sreg)
+		{
+			bi.genbill();
+			cout<<"\nPress any key to continue....";
+			getch();
+			found='y';
+			break;
+		}
+	}
+	if(found=='n')
+	cout<<"The registration number doesn't exist.";
+	file.close();
+
+}
+
+
 
 //AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 //              all function below are part of settings function
@@ -734,6 +741,18 @@ void billgen::groupsettings()
 
 	}
 
+//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+//              function made to change the horizontal line design
+//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+
+void billgen::changelines()
+{
+	cout<<"\nPress any key to used to draw lines:";
+	cin>>dt.sym;
+	cout<<"\ndone!\n";
+	options();
+}
+
 
 //AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 //                     draws horizontal lines
@@ -748,17 +767,37 @@ void billgen::lines()
 	}
 }
 
-//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-//              function made to change the horizontal line design
-//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-void billgen::changelines()
-{
-	cout<<"\nPress any key to used to draw lines:";
-	cin>>dt.sym;
-	cout<<"\ndone!\n";
-	options();
-}
 
+
+
+//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+//             special   function
+//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+
+void billgen::credit()
+{
+			cout<<endl;
+			lines();
+			lines();
+			cout<<"\n\nProject name   :Bill-gen";
+			cout<<"\n\nCreated by     :sAURABH SHRIVAS ";
+			char ca;
+			cout<<"\n\nDo you want to see our LOGO(y/n):";
+			cin>>ca;
+			if(ca=='y'||ca=='Y')
+			{
+				textcolor(LIGHTGREEN);
+				textbackground(BLACK);
+				cout<<endl;
+				cout<<"        s         "<<endl;
+				cout<<"       sss        "<<endl;
+				cout<<"      sssss       "<<endl;
+			 }
+			cout<<endl;endl;
+			cout<<"\n\nPress any key to continue....";
+			getch();
+
+}
 
 
 //AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
@@ -796,34 +835,6 @@ void billgen::help()
 	getch();
 }
 
-//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-//             special   function
-//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-
-void billgen::credit()
-{
-			cout<<endl;
-			lines();
-			lines();
-			cout<<"\n\nProject name   :Bill-gen";
-			cout<<"\n\nCreated by     :VAIBHAV SHRIVAS ";
-			char ca;
-			cout<<"\n\nDo you want to see our LOGO(y/n):";
-			cin>>ca;
-			if(ca=='y'||ca=='Y')
-			{
-				textcolor(LIGHTGREEN);
-				textbackground(BLACK);
-				cout<<endl;
-				cout<<"        s         "<<endl;
-				cout<<"       sss        "<<endl;
-				cout<<"      sssss       "<<endl;
-			 }
-			cout<<endl;endl;
-			cout<<"\n\nPress any key to continue....";
-			getch();
-
-}
 
 
 
